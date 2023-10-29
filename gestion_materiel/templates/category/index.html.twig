@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category {% endblock %}
+
+{% block body %}
+
+{% if app.flashes('success') is not empty %}
+    <div class="alert alert-success" id="success-message">
+        {{ app.flashes('success')|first }}
+        Insertion réussie
+    </div>
+{% endif %}
+    
+    <div class="container">
+        <h2 class="text-center mt-6 mb-3">Liste des categories</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-primary" href="{{ path('app_category_new') }}"> 
+                    Ajouter Category
+                </a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <a class="btn btn-outline-success" href="{{ path('app_category_edit', {'id': category.id}) }}">modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Donnée vide</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        //configuration du message de succes 
+        var successMessage = document.getElementById('success-message');
+        var timeout = 6000;
+        setTimeout(function() {
+            successMessage.style.display = 'none';
+        }, timeout);
+        
+    </script>
+{% endblock%}
+
+{% endblock %}

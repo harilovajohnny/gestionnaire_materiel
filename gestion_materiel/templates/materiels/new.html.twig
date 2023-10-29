@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Equipement{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        <h2 class="text-center mt-5 mb-3">Creation equipement</h2>
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-info float-right" href="{{ path('app_materiels_index') }}"> 
+                    Voir les equipements
+                </a>
+            </div>
+            <div class="card-body">
+                {{ include('materiels/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

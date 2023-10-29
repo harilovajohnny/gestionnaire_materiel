@@ -1,0 +1,7 @@
+index:
+   path: /
+   controller: App\Controller\MaterielsController::index
+
+filtre_materiel:
+    path: /filtre
+    controller: App\Controller\MaterielsController::getMaterialsByCategory

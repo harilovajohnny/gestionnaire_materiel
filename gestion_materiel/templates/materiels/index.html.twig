@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des equipements{% endblock %}
+
+{% block body %}
+    {% if app.flashes('success') is not empty %}
+        <div class="alert alert-success" id="success-message">
+            {{ app.flashes('success')|first }}
+            Insertion réussie
+        </div>
+    {% endif %}
+    {% if app.flashes('success-update') is not empty %}
+        <div class="alert alert-success" id="update-success">
+            Modification réussie
+        </div>
+    {% endif %}
+    {% if app.flashes('success-delete') is not empty %}
+        <div class="alert alert-success" id="delete-success">
+            Suppression réussie
+        </div>
+    {% endif %}
+
+    <h1>Liste des equipements</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <a class="btn btn-outline-primary" href="{{ path('app_materiels_new') }}"> 
+                    Nouveau Equipement
+                </a>
+            </div>
+            <div class="form-group">
+                <form>
+                    <select class="form-select col-md-4" id="categorySelect"  aria-label="Default select example">
+                        <option value="">Toutes les catégories</option>
+                        {% for category in categories %}
+                            <option value="{{ category.name }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Number</th>
+                        <th>Description</th>
+                        <th>CreatedAt</th>
+                        <th>UpdatedAt</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody id="materialsContainer">
+                {% for materiel in materiels %}
+                    <tr>
+                        <td>{{ materiel.id }}</td>
+                        <td>{{ materiel.Name }}</td>
+                        <td>{{ materiel.category }}</td>
+                        <td>{{ materiel.number }}</td>
+                        <td>{{ materiel.description }}</td>
+                        <td>{{ materiel.createdAt ? materiel.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ materiel.updatedAt ? materiel.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a class="btn btn-outline-success" href="{{ path('app_materiels_edit', {'id': materiel.id}) }}">modifier</a>
+                        </td>
+                        <td>
+                            <form method="post" action="{{ path('app_materiels_delete', {'id': materiel.id}) }}" onsubmit="return confirm('Etes vous sûr de supprimer cet element??');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ materiel.id) }}">
+                                <button class="btn btn-outline-danger">Supprimer </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">Pas de donné</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+{% block javascripts %}
+
+{% set editUrl = path('app_materiels_edit', {'id': 'id'}) %}
+{% set deteleUrl = path('app_materiels_delete', {'id': 'id'}) %}
+{% set csrfToken = csrf_token('your_csrf_token_id') %}
+ 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
+    <script>
+        //configuration du message de succes 
+        var successMessage = document.getElementById('success-message');
+        var updateMessage = document.getElementById('update-success');
+        var deleteMessage = document.getElementById('delete-success');
+        var timeout = 6000;
+        setTimeout(function() {
+            successMessage.style.display = 'none';
+        }, timeout);
+
+        setTimeout(function() {
+            updateMessage.style.display = 'none';
+        }, timeout);
+
+        setTimeout(function() {
+            deleteMessage.style.display = 'none';
+        }, timeout);
+
+        // Configuration du filtre par categories
+        $(document).ready(function () {
+            
+            var editUrl = {{ editUrl|json_encode|raw }};
+            var deteleUrls = {{ deteleUrl|json_encode|raw }};
+            console.log("editUrl",editUrl);
+
+            var csrfToken = ''; // Initialisez la variable csrfToken
+            csrfToken = document.querySelector('input[name="_token"]').value;
+
+            $('#categorySelect').on('change', function () {
+                console.log('value', $(this).val())
+                var categoryId = $(this).val();
+                
+                $.get('/materiels/materials-by-category', { category_id: categoryId }, function (data) {
+                    var materialsContainer = $('#materialsContainer');
+                    materialsContainer.empty();
+                    console.log("alldata",data);
+                    if (data.length > 0) {
+                        var html = '<table class="table"><thead></thead><tbody>';
+                        $.each(data, function (index, material) {
+                            html += '<tr>';
+                            html += '<td>' + material.id + '</td>';
+                            html += '<td>' + material.name + '</td>';
+                            html += '<td>';
+                                if (material.category==null) {
+                                    html += "";
+                                } else {
+                                    html += material.category; 
+                                }
+                            html += '</td>';
+                            html += '<td>' + material.number + '</td>';
+                            html += '<td>' + material.description + '</td>';
+                            html += '<td>' + material.createdAt + '</td>';
+                            html += '<td>';
+                            if (material.updatedAt==null) {
+                                html += "";
+                            } else {
+                                html += material.updatedAt; 
+                            }
+                            html += '</td>';
+                            html += '<td><a class="btn btn-outline-success" href="' + editUrl.replace('id',  material.id) + '">modifier</a></td>';
+                            html += '<td>';
+                            html += '<form method="post" action="' + deteleUrls.replace('id', material.id) + '" onsubmit="return confirm(\'Etes vous sûr de supprimer cet element?\');">';
+                            html += '<input type="hidden" name="_token" value="' + csrfToken + '">';
+                            html += '<button class="btn btn-outline-danger">Supprimer </button>';
+                            html += '</form>';
+                            html += '</td>';
+                            html += '</tr>';
+                        });
+                        html += '</tbody></table>';
+                        materialsContainer.html(html);
+                        
+                    } else {
+                        materialsContainer.html('<p>Aucun équipement trouvé pour cette catégorie.</p>');
+                    }
+
+                });
+            });
+        });
+    </script>
+{% endblock%}
+
+{% endblock %}
