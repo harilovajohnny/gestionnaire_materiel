@@ -4,12 +4,9 @@
 
 {% block body %}
     <div class="container">
-        <h2 class="text-center mt-5 mb-3">Modifier Category</h2>
+        <h2 class="text-center mt-5 mb-3">Modifier Catégorie</h2>
         <div class="card">
             <div class="card-header">
-                <a class="btn btn-outline-info float-right" href="{{ path('app_category_index') }}"> 
-                    Voir Category
-                </a>
             </div>
             <div class="card-body">
                 {{ include('category/_form.html.twig', {'button_label': 'Valider'}) }}
