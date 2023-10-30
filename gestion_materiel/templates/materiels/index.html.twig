@@ -96,17 +96,23 @@
         var updateMessage = document.getElementById('update-success');
         var deleteMessage = document.getElementById('delete-success');
         var timeout = 6000;
-        setTimeout(function() {
-            successMessage.style.display = 'none';
-        }, timeout);
+        if(successMessage!=null ){
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, timeout);
+        }
 
-        setTimeout(function() {
-            updateMessage.style.display = 'none';
-        }, timeout);
+        if(updateMessage!=null ){
+            setTimeout(function() {
+                updateMessage.style.display = 'none';
+            }, timeout);
+        }
 
-        setTimeout(function() {
-            deleteMessage.style.display = 'none';
-        }, timeout);
+        if(deleteMessage!=null ){
+            setTimeout(function() {
+                deleteMessage.style.display = 'none';
+            }, timeout);
+        }
 
         // Configuration du filtre par categories
         $(document).ready(function () {
