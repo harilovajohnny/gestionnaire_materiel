@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 29 oct. 2023 à 15:48
+-- Généré le : lun. 30 oct. 2023 à 06:21
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.0.28
 
@@ -81,15 +81,14 @@ CREATE TABLE `materiel` (
 --
 
 INSERT INTO `materiel` (`id`, `name`, `category`, `number`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'testes', 'telephone', 'test', 'ma descriptions', '2023-10-26 17:01:41', '2023-10-28 18:59:51'),
-(3, 'iphone 8 256g', NULL, '122KEZ388Eds33K', 'iphone 8 eme generation', '2023-10-28 09:33:18', NULL),
+(3, 'iphone 8 256g', 'telephone', '122KEZ388Eds33K', 'iphone 8 eme generation', '2023-10-28 09:33:18', '2023-10-30 05:19:42'),
 (4, 'iPhone X  64Gb', 'telephone', '122KEZ388EEEK', 'descriptiondfsd', '2023-10-28 10:02:45', '2023-10-29 12:29:41'),
-(8, 'iphone 8 256g', NULL, 'test', 'sdfsd', '2023-10-29 11:54:48', NULL),
-(10, 'iphone 13 pro 256g', 'telephone', '122KEZ388EEEK', 'fsdfsdf', '2023-10-29 13:52:01', NULL),
-(11, 'iphone 8 256g', 'telephone', '122KEZ388EEEK', 'desc', '2023-10-29 13:55:44', NULL),
+(10, 'iphone 13 pro 256g', 'telephone', '122KEZ388EEEK', 'iphone 13 eme generation', '2023-10-29 13:52:01', '2023-10-30 05:15:06'),
+(11, 'iphone 8 256g', 'telephone', '122KEZ388EEEK', 'un smarthphone apple', '2023-10-29 13:55:44', '2023-10-30 05:15:49'),
 (12, 'iphone 8 256g', 'telephone', '122KEZ388EEEK', 'test', '2023-10-29 13:56:27', NULL),
 (13, 'iphone 8 256g', 'telephone', '122KEZ388EEEK', 'sdfssdf', '2023-10-29 14:00:01', NULL),
-(14, 'hp De', NULL, '2423II423499IID', 'ma description', '2023-10-29 14:40:59', '2023-10-29 14:41:46');
+(15, 'iphone 11 128gb', 'telephone', '122KEZ388Eds33K', 'ma desc', '2023-10-30 02:30:51', '2023-10-30 02:31:18'),
+(16, 'azus rog', 'ordinateur', '122KEZfdfds8Eds33K', 'un ordinateur portable gamer', '2023-10-30 05:18:49', NULL);
 
 --
 -- Index pour les tables déchargées
@@ -127,7 +126,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT pour la table `materiel`
 --
 ALTER TABLE `materiel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
